@@ -5,11 +5,15 @@
     "license":     "MIT",
     "homepage":    "http://gbili.com",
     "keywords":    [
-        "user",
+        "doctrine",
         "module",
-        "zf2"
+        "zf2",
+        "event",
+        "listener"
     ],
+
     "minimum-stability": "dev",
+
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "~2.2"
