@@ -1,5 +1,5 @@
 {
-    "name":        "gbili/gbili-doctrine-config-module",
+    "name":        "gbili/gbili-doctrine-config-event-module",
     "description": "Zend Framework 2 Module that provides doctrine event listeners registerer through config",
     "type":        "library",
     "license":     "MIT",
