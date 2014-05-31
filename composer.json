@@ -1,6 +1,6 @@
 {
-    "name":        "gbili/gbili-user-module",
-    "description": "Zend Framework 2 Module that provides user functionnallity",
+    "name":        "gbili/gbili-doctrine-config-module",
+    "description": "Zend Framework 2 Module that provides doctrine event listeners registerer through config",
     "type":        "library",
     "license":     "MIT",
     "homepage":    "http://gbili.com",
