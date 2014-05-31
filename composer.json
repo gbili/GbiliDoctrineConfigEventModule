@@ -1,0 +1,22 @@
+{
+    "name":        "gbili/gbili-user-module",
+    "description": "Zend Framework 2 Module that provides user functionnallity",
+    "type":        "library",
+    "license":     "MIT",
+    "homepage":    "http://gbili.com",
+    "keywords":    [
+        "user",
+        "module",
+        "zf2"
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "~2.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "GbiliDoctrineConfigEventModule\\": "src/"
+        }
+    }
+}

@@ -1,4 +1,4 @@
 GbiliDoctrineConfigEventModule
-==============================
+===============
 
-A module that loads config arrays and regsiters them as events
+Adds user functionallity to your zf2 application. However I highly recommend not using this. Use Zf-Commons/ZfcUser instead
