@@ -17,30 +17,41 @@ class Module
         $em = $sm->get('doctrine.entitymanager.orm_default');
         $dem = $em->getEventManager();
 
-        $addedEventListenerHashesToPriority = array();
+        $highestPriorityEventListeners = array();
+        $eventListenerHashesToPriority = array();
 
         foreach ($doctrineEventListenersConfig as $eventIdentifier => $eventListeners) {
             foreach ($eventListeners as $eventListenerSet) {
                 $listenerClass = $eventListenerSet['listener_class'];
                 $listenerMethod = $eventListenerSet['listener_method'];
                 foreach ($eventListenerSet['listeners_params'] as $listenerIdentifierPart => $listenerParams) {
-                    $listenerHash = md5($eventIdentifier . $listenerClass . $listenerMethod . $listenerIdentifierPart);
                     $listenerPriority = (isset($eventListenerSet['priority']))
                         ? $eventListenerSet['priority']
                         : 0;
-                    if (isset($addedEventListenerHashesToPriority[$listenerHash])) {
-                        $lastPriority = $addedEventListenerHashesToPriority[$listenerHash];
+
+                    $listenerHashData = array($eventIdentifier, $listenerClass, $listenerMethod, $listenerIdentifierPart);
+                    $listenerHash = md5(implode('', $listenerHashData));
+                    $listenerData = $listenerHashData;
+                    $listenerData[] = $listenerParams;
+
+                    if (isset($eventListenerHashesToPriority[$listenerHash])) {
+                        $lastPriority = $eventListenerHashesToPriority[$listenerHash];
                         if ($lastPriority >= $listenerPriority) continue;
                     }
 
-                    $listener = new $listenerClass;
-                    call_user_func_array(array($listener, $listenerMethod), $listenerParams);
-                    // Last added takes priority over the rest
-                    $dem->addEventListener($eventIdentifier, $listener);
+                    $highestPriorityEventListeners[$listenerHash] = $listenerData;
 
-                    $addedEventListenerHashes[$listenerHash] = $listenerPriority;
+                    $eventListenerHashesToPriority[$listenerHash] = $listenerPriority;
                 }
             }
+        }
+
+        foreach ($highestPriorityEventListeners as $eventListenerData) {
+            list($eventIdentifier, $listenerClass, $listenerMethod, $listenerIdentifierPart, $listenerParams) = $eventListenerData;
+            $listener = new $listenerClass;
+            call_user_func_array(array($listener, $listenerMethod), $listenerParams);
+            // Last added takes priority over the rest
+            $dem->addEventListener($eventIdentifier, $listener);
         }
     }
 }
